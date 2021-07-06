@@ -1,145 +1,22 @@
 import React, { useState } from "react"
 import ReactDOM from 'react-dom'
-import { render } from "react-dom"
 import { useDrag } from 'react-dnd'
 import { useDrop } from 'react-dnd'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useAlert } from './hooks/useAlert.jsx'
+import { useGameOver } from './hooks/useGameOver.jsx'
+import { useCurrentPlayer } from './hooks/useCurrentPlayer.jsx'
+import { useCoins } from './hooks/useCoins.jsx'
+import { useRedRowInput } from './hooks/useRedRowInput.jsx'
+import { useRedColumnInput } from './hooks/useRedColumnInput.jsx'
+import { useYellowColumnInput } from './hooks/useYellowColumnInput.jsx'
+import { useYellowRowInput } from './hooks/useYellowRowInput.jsx'
 
 
-function useAlert(initialAlert = '') {
-    const [alert, setTheAlert] = useState(initialAlert)
 
-    const setAlert = function (alert) {
-        setTheAlert(alert)
-    }
 
-    return [
-        alert,
-        setAlert
-    ]
-}
 
-function useGameOver(initialValue = false) {
-    const [gameOver, setGameOver] = useState(initialValue)
-    const isGameOver = function (value) {
-        setGameOver(value)
-    }
-
-    return [
-        gameOver,
-        isGameOver
-    ]
-}
-
-function useCurrentPlayer(initialPlayer = "yellow") {
-    const [currentPlayer, choosePlayer] = useState(initialPlayer)
-    const setPlayer = function (player) {
-        if (player === "yellow") {
-            choosePlayer("red")
-        } else if (player === "red") {
-            choosePlayer("yellow")
-        }
-    }
-
-    return [
-        currentPlayer,
-        setPlayer
-    ]
-}
-
-function useCoins(initialCoins = []) {
-    const [coins, setCoins] = useState(initialCoins)
-    const addCoins = function ({ coins, coin, currentPlayer, playerColor, setAlert, setPlayer }) {
-        if (!coin) {
-            setCoins([])
-        } else {
-            coin.row = parseInt(coin.row, 10)
-            coin.column = parseInt(coin.column, 10)
-            if (currentPlayer === playerColor) {
-                if (!isBoxFilled(coins, coin.row, coin.column)) {
-                    if (isBelowBoxFilled(coins, coin.row, coin.column)) {
-                        if (coin.row >= 1 && coin.row <= 6 &&
-                            coin.column >= 1 && coin.column <= 7) {
-                            let isInCoins = false
-                            coins.forEach((coin2, i) => {
-                                if (coin.row === coin2.row &&
-                                    coin.column === coin2.column) {
-                                    isInCoins = true
-                                }
-                            })
-                            if (!isInCoins) {
-                                setCoins(c => {
-                                    return [...c, coin]
-                                })
-                                setPlayer(currentPlayer)
-                            }
-                        }
-                    } else {
-                        setAlert('Attention, vous ne pouvez pas placer un jeton au dessus d\'une case vide.')
-                    }
-                } else {
-                    setAlert('Attention, cette case contient déjà un jeton.')
-                }
-            } else {
-                setAlert('Ce n\'est pas à votre tour.')
-            }
-        }
-    }
-
-    return [
-        coins,
-        addCoins
-    ]
-}
-
-function useRedRowInput(initialValue = "") {
-    const [redRowInput, setRedRowInput] = useState(initialValue)
-    const changeRedRowInput = function (value) {
-        setRedRowInput(value)
-    }
-
-    return [
-        redRowInput,
-        changeRedRowInput
-    ]
-}
-
-function useRedColumnInput(initialValue = "") {
-    const [redColumnInput, setRedColumnInput] = useState(initialValue)
-    const changeRedColumnInput = function (value) {
-        setRedColumnInput(value)
-    }
-
-    return [
-        redColumnInput,
-        changeRedColumnInput
-    ]
-}
-
-function useYellowRowInput(initialValue = "") {
-    const [yellowRowInput, setYellowRowInput] = useState(initialValue)
-    const changeYellowRowInput = function (value) {
-        setYellowRowInput(value)
-    }
-
-    return [
-        yellowRowInput,
-        changeYellowRowInput
-    ]
-}
-
-function useYellowColumnInput(initialValue = "") {
-    const [yellowColumnInput, setYellowColumnInput] = useState(initialValue)
-    const changeYellowColumnInput = function (value) {
-        setYellowColumnInput(value)
-    }
-
-    return [
-        yellowColumnInput,
-        changeYellowColumnInput
-    ]
-}
 
 function Alert({ alert }) {
     return <>
@@ -533,7 +410,6 @@ function GridRow({ coins, className, children, coordinates, addCoins, currentPla
                         'column': coordinates.column,
                         'color': monitor.color
                     }
-                    console.log(addCoins)
                     addCoins({
                         coin,
                         coins,
