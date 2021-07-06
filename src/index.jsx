@@ -196,22 +196,24 @@ function PlayersInterface({ playerColor, addCoins, coins, setAlert, currentPlaye
 
     return <div className={`interface interface--${playerColor}`}>
         {getTitle(playerColor)}
-        <Coin className={`interface__coin interface__coin--${playerColor}`} color={playerColor} />
+        <Coin className={`interface__coin interface__coin--${playerColor}`} color={playerColor} setAlert={setAlert} />
         <PlayersForm playerColor={playerColor} addCoins={addCoins} coins={coins} setAlert={setAlert} currentPlayer={currentPlayer} setPlayer={setPlayer} isGameOver={isGameOver} />
     </div>
 }
 
-function Coin({ color, className }) {
+function Coin({ color, className, setAlert }) {
 
     function getHookByColor(color) {
         if (color === 'yellow') {
-            const [{ isDragging }, drag] = useDrag(() => ({
+            const [{ isDragging }, drag] = useDrag(() =>
+            ({
                 type: 'yellowCoin',
                 item: { 'color': 'yellow' },
                 collect: monitor => ({
                     isDragging: !!monitor.isDragging(),
                 }),
-            }))
+            })
+            )
 
             return [{ isDragging }, drag]
         } else if (color === 'red') {
@@ -515,7 +517,6 @@ function Grid({ coins, addCoins, setAlert, currentPlayer, setPlayer, isGameOver 
 function GridRow({ coins, className, children, coordinates, addCoins, currentPlayer, setAlert, setPlayer, isGameOver }) {
     if (coordinates) {
         if (coordinates.row === 1 && coordinates.column === 2) {
-            /*console.log('coins', coins)*/
         }
         let coin
         var [{ isOver }, drop] = useDrop(
@@ -526,8 +527,7 @@ function GridRow({ coins, className, children, coordinates, addCoins, currentPla
 
                 }),
                 drop: (monitor) => {
-
-                    console.log('monitor', monitor.color, 'currentPlayer', currentPlayer, 'coins', coins)
+                    setAlert('')
                     coin = {
                         'row': coordinates.row,
                         'column': coordinates.column,
@@ -680,4 +680,5 @@ function observe(o) {
     emitChange()
 }
 
+ReactDOM.render(<Game />, document.getElementById('app'))
 /*----------------------Fin DnD----------------------------*/
