@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { isSquareEmpty } from '../functions/isSquareEmpty.jsx'
+import { isBelowSquareFilled } from '../functions/isBelowSquareFilled.jsx'
 
 /**
  * Handle the adding of a played coin.
@@ -17,33 +19,26 @@ export function useCoins(initialCoins = []) {
         } else {
             coin.row = parseInt(coin.row, 10)
             coin.column = parseInt(coin.column, 10)
-            if (currentPlayer === playerColor) {
-                if (!isBoxFilled(coins, coin.row, coin.column)) {
-                    if (isBelowBoxFilled(coins, coin.row, coin.column)) {
-                        if (coin.row >= 1 && coin.row <= 6 &&
-                            coin.column >= 1 && coin.column <= 7) {
-                            let isInCoins = false
-                            coins.forEach((coin2, i) => {
-                                if (coin.row === coin2.row &&
-                                    coin.column === coin2.column) {
-                                    isInCoins = true
-                                }
+            if (coin.row >= 1 && coin.row <= 6 &&
+                coin.column >= 1 && coin.column <= 7) {
+                if (currentPlayer === playerColor) {
+                    if (isSquareEmpty(coins, coin.row, coin.column)) {
+                        if (isBelowSquareFilled(coins, coin.row, coin.column)) {
+                            setCoins(c => {
+                                return [...c, coin]
                             })
-                            if (!isInCoins) {
-                                setCoins(c => {
-                                    return [...c, coin]
-                                })
-                                setPlayer(currentPlayer)
-                            }
+                            setPlayer(currentPlayer)
+                        } else {
+                            setAlert('Attention, vous ne pouvez pas placer un jeton au dessus d\'une case vide.')
                         }
                     } else {
-                        setAlert('Attention, vous ne pouvez pas placer un jeton au dessus d\'une case vide.')
+                        setAlert('Attention, cette case contient déjà un jeton.')
                     }
                 } else {
-                    setAlert('Attention, cette case contient déjà un jeton.')
+                    setAlert('Ce n\'est pas à votre tour.')
                 }
             } else {
-                setAlert('Ce n\'est pas à votre tour.')
+                setAlert('Cet emplaçement n\'accepte pas de jetons.')
             }
         }
     }
