@@ -1,0 +1,90 @@
+@use "sass:math";
+
+$breakpoints: ();
+$gridWidth: 400px;
+$gridHeight: math.div($gridWidth * 6, 7);
+$gridColumn: math.div($gridHeight, 7);
+$gridRow: math.div($gridWidth, 8);
+
+.game {
+    text-align: center;
+    position: relative;
+    &__layout {
+        display: flex;
+        justify-content: space-evenly;
+        width: 100%;
+    }
+    &__alert {
+        min-height: 80px;
+        color: red;
+        font-size: 1.5rem;
+    }
+    &__currentPlayer {
+        font-size: 1.2rem;
+        &--yellow {
+            color: yellow;
+        }
+        &--red {
+            color: red;
+        }
+    }
+}
+
+.grid {
+    display: grid;
+    width: $gridWidth;
+    height: $gridHeight;
+    grid-template: repeat(7, 1fr) / repeat(8, 1fr);
+    background-color: blue;
+    &__row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        width: $gridRow;
+        height: $gridColumn;
+        border: 2px solid blue;
+        background-color: white;
+        &--round {
+            border-radius: 50%;
+        }
+        &--yellow {
+            background-color: yellow;
+        }
+        &--red {
+            background-color: red;
+        }
+        &--r0c0 {
+            background-color: blue;
+        }
+    }
+}
+
+.interface {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &__title {
+        text-align: center;
+    }
+    &__coin {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        cursor: move;
+        &--yellow {
+            background-color: yellow;
+        }
+        &--red {
+            background-color: red;
+        }
+    }
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
