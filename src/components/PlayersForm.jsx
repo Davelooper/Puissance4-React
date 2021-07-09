@@ -9,7 +9,6 @@ import { AlertContext } from "../contexts/AlertContext.jsx"
 export function PlayersForm({ playerColor, addCoins, coins, currentPlayer, isGameOver, setPlayer }) {
     const [rowInput, changeRowInput, columnInput, changeColumnInput] = getInputsHooks(playerColor)
     const { setAlert } = useContext(AlertContext)
-    console.log(setAlert)
 
     function getInputsHooks(playerColor) {
         if (playerColor === 'yellow') {
