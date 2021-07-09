@@ -7,7 +7,7 @@ import { useDrag } from 'react-dnd'
  * @param {*} param0 
  * @returns 
  */
-export function Coin({ color, className, setAlert }) {
+export function Coin({ color, className }) {
 
     function getHookByColor(color) {
         if (color === 'yellow') {

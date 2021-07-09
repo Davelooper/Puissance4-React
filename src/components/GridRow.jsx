@@ -1,8 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useDrop } from 'react-dnd'
 import { gameOver } from '../functions/gameOver.jsx'
+import { AlertContext } from "../contexts/AlertContext.jsx"
 
-export function GridRow({ coins, className, children, coordinates, addCoins, currentPlayer, setAlert, setPlayer, isGameOver }) {
+export function GridRow({ coins, className, children, coordinates, addCoins, currentPlayer, setPlayer, isGameOver }) {
+    const { setAlert } = useContext(AlertContext)
+
     if (coordinates) {
         if (coordinates.row === 1 && coordinates.column === 2) {
         }

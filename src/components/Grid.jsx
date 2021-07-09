@@ -3,7 +3,7 @@ import { GridRow } from './GridRow.jsx'
 import { GridCoin } from './GridCoin.jsx'
 import { GridNumber } from './GridNumber.jsx'
 
-export function Grid({ coins, addCoins, setAlert, currentPlayer, setPlayer, isGameOver }) {
+export function Grid({ coins, addCoins, currentPlayer, setPlayer, isGameOver }) {
 
     function insertCoin(coins, box) {
         let elt = null
@@ -14,7 +14,6 @@ export function Grid({ coins, addCoins, setAlert, currentPlayer, setPlayer, isGa
                     key={`r${box.row}c${box.column}`}
                     keyRow={`r${box.row}c${box.column}`}
                     className={`grid__row grid__row--round grid__row--${coin.color} grid__r${box.row}c${box.column}`}
-                    setAlert={setAlert}
                     currentPlayer={currentPlayer}
                     setPlayer={setPlayer}
                 >
@@ -25,7 +24,7 @@ export function Grid({ coins, addCoins, setAlert, currentPlayer, setPlayer, isGa
         return elt
     }
 
-    function createGrid(coins, addCoins, setPlayer, setAlert, currentPlayer) {
+    function createGrid(coins, addCoins, setPlayer, currentPlayer) {
         let grid = []
         for (let i = 6; i >= 0; i--) {
             for (let j = 0; j < 8; j++) {
@@ -63,7 +62,6 @@ export function Grid({ coins, addCoins, setAlert, currentPlayer, setPlayer, isGa
                             coins={coins}
                             addCoins={addCoins}
                             setPlayer={setPlayer}
-                            setAlert={setAlert}
                             key={`r${i}c${j}`}
                             keyRow={`r${i}c${j}`}
                             currentPlayer={currentPlayer}
@@ -79,7 +77,7 @@ export function Grid({ coins, addCoins, setAlert, currentPlayer, setPlayer, isGa
 
     return <div className="grid">
         {
-            createGrid(coins, addCoins, setPlayer, setAlert, currentPlayer)
+            createGrid(coins, addCoins, setPlayer, currentPlayer)
         }
     </div>
 }

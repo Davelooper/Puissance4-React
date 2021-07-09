@@ -1,12 +1,15 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useRedRowInput } from '../hooks/useRedRowInput.jsx'
 import { useRedColumnInput } from '../hooks/useRedColumnInput.jsx'
 import { useYellowColumnInput } from '../hooks/useYellowColumnInput.jsx'
 import { useYellowRowInput } from '../hooks/useYellowRowInput.jsx'
 import { gameOver } from '../functions/gameOver.jsx'
+import { AlertContext } from "../contexts/AlertContext.jsx"
 
-export function PlayersForm({ playerColor, addCoins, coins, setAlert, currentPlayer, isGameOver, setPlayer }) {
+export function PlayersForm({ playerColor, addCoins, coins, currentPlayer, isGameOver, setPlayer }) {
     const [rowInput, changeRowInput, columnInput, changeColumnInput] = getInputsHooks(playerColor)
+    const { setAlert } = useContext(AlertContext)
+    console.log(setAlert)
 
     function getInputsHooks(playerColor) {
         if (playerColor === 'yellow') {

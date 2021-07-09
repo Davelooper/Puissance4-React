@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import ReactDOM from 'react-dom'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -11,6 +11,7 @@ import { CurrentPlayer } from './components/CurrentPlayer.jsx'
 import { PlayersInterface } from './components/PlayersInterface.jsx'
 import { Grid } from './components/Grid.jsx'
 import { Endgame } from './components/Endgame.jsx'
+import { AlertContext } from './contexts/AlertContext'
 
 
 /*------------------DnD----------------------------- */
@@ -48,45 +49,48 @@ function Game() {
     const [currentPlayer, setPlayer] = useCurrentPlayer('yellow')
     const [gameOver, isGameOver] = useGameOver(false)
 
-    return <DndProvider backend={HTML5Backend}><div className="game">
-        <h1 className="game__title">Puissance 4</h1>
-        {gameOver ? <Endgame
-            setAlert={setAlert}
-            addCoins={addCoins}
-            setPlayer={setPlayer}
-            isGameOver={isGameOver}
-        /> : null}
-        <CurrentPlayer currentPlayer={currentPlayer} />
-        <div className="game__layout">
-            <PlayersInterface
-                playerColor={'yellow'}
-                addCoins={addCoins}
-                coins={coins}
-                setAlert={setAlert}
-                currentPlayer={currentPlayer}
-                setPlayer={setPlayer}
-                isGameOver={isGameOver}
-            />
-            <Grid
-                coins={coins}
-                addCoins={addCoins}
-                setAlert={setAlert}
-                currentPlayer={currentPlayer}
-                setPlayer={setPlayer}
-                isGameOver={isGameOver}
-            />
-            <PlayersInterface
-                playerColor={'red'}
-                addCoins={addCoins}
-                coins={coins}
-                setAlert={setAlert}
-                currentPlayer={currentPlayer}
-                setPlayer={setPlayer}
-                isGameOver={isGameOver}
-            />
-        </div>
-        <Alert alert={alert} />
-    </div>
+    return <DndProvider backend={HTML5Backend}>
+        <AlertContext.Provider value={{ setAlert, alert }}>
+            <div className="game">
+                <h1 className="game__title">Puissance 4</h1>
+                {gameOver ? <Endgame
+                    setAlert={setAlert}
+                    addCoins={addCoins}
+                    setPlayer={setPlayer}
+                    isGameOver={isGameOver}
+                /> : null}
+                <CurrentPlayer currentPlayer={currentPlayer} />
+                <div className="game__layout">
+                    <PlayersInterface
+                        playerColor={'yellow'}
+                        addCoins={addCoins}
+                        coins={coins}
+                        setAlert={setAlert}
+                        currentPlayer={currentPlayer}
+                        setPlayer={setPlayer}
+                        isGameOver={isGameOver}
+                    />
+                    <Grid
+                        coins={coins}
+                        addCoins={addCoins}
+                        setAlert={setAlert}
+                        currentPlayer={currentPlayer}
+                        setPlayer={setPlayer}
+                        isGameOver={isGameOver}
+                    />
+                    <PlayersInterface
+                        playerColor={'red'}
+                        addCoins={addCoins}
+                        coins={coins}
+                        setAlert={setAlert}
+                        currentPlayer={currentPlayer}
+                        setPlayer={setPlayer}
+                        isGameOver={isGameOver}
+                    />
+                </div>
+                <Alert alert={alert} />
+            </div>
+        </AlertContext.Provider>
     </DndProvider>
 }
 

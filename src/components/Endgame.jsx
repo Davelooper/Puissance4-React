@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useContext } from "react"
+import { AlertContext } from "../contexts/AlertContext.jsx"
 
 /**
  * This component is displayed when the game is over.
@@ -6,7 +7,8 @@ import React from "react"
  * @param {*} param0 
  * @returns 
  */
-export function Endgame({ setAlert, addCoins, isGameOver }) {
+export function Endgame({ addCoins, isGameOver }) {
+    const { setAlert } = useContext(AlertContext)
 
     function newGame() {
         addCoins([])
